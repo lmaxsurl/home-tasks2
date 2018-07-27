@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.presentation.screens.user.list.UserViewModel" />
+            type="com.example.presentation.screens.user.homeTask9User.UserHomeTask9ViewModel" />
     </data>
 
     <LinearLayout

@@ -2,23 +2,33 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.android.hometasks2">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name="com.example.app.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.presentation.screens.user.list.MainActivity">
+        <activity android:name="com.example.presentation.screens.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.presentation.screens.user.list.UserActivity"/>
+        <activity android:name="com.example.presentation.screens.user.homeTask9User.UserActivityHomeTask9" />
+        <activity
+            android:name="com.example.presentation.screens.user.list.UserListActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.example.presentation.screens.user.view.UserInfoActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.example.presentation.screens.user.edit.AddUserActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
     </application>
 
 </manifest>

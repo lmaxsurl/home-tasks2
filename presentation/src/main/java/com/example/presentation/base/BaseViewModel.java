@@ -2,11 +2,29 @@ package com.example.presentation.base;
 
 import android.arch.lifecycle.ViewModel;
 
+import com.example.android.hometasks2.R;
+
 import io.reactivex.disposables.CompositeDisposable;
 
-public abstract class BaseViewModel extends ViewModel {
+public abstract class BaseViewModel<R extends BaseRouter> extends ViewModel {
 
     private CompositeDisposable compositeDisposable;
+
+    protected R router;
+
+    protected abstract void runInject();
+
+    public BaseViewModel() {
+        runInject();
+    }
+
+    public void addRouter(R router){
+        this.router = router;
+    }
+
+    public void removeRouter(){
+        router = null;
+    }
 
     public CompositeDisposable getCompositeDisposable() {
         if(compositeDisposable == null) {
@@ -24,6 +42,4 @@ public abstract class BaseViewModel extends ViewModel {
             compositeDisposable.dispose();
         }
     }
-
-
 }

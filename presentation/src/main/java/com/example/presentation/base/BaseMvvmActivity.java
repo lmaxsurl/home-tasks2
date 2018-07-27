@@ -5,21 +5,26 @@ import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.android.databinding.library.baseAdapters.BR;
+import com.example.android.hometasks2.BR;
 
 
-public abstract class BaseMvvmActivity<VM extends BaseViewModel, B extends ViewDataBinding>
+public abstract class BaseMvvmActivity<ViewModel extends BaseViewModel,
+        B extends ViewDataBinding,
+        R extends BaseRouter>
         extends BaseActivity {
 
-    protected VM viewModel;
+    protected ViewModel viewModel;
     protected B binding;
+    protected R router;
 
     /**
      * Use ViewModelProviders.of(this).get(ViewModel.class);
      */
-    protected abstract VM provideViewModel();
+    protected abstract ViewModel provideViewModel();
 
     protected abstract int provideLayoutId();
+
+    protected abstract R provideRouter();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,5 +34,19 @@ public abstract class BaseMvvmActivity<VM extends BaseViewModel, B extends ViewD
 
         binding = DataBindingUtil.setContentView(this, provideLayoutId());
         binding.setVariable(BR.viewModel, viewModel);
+
+        router = provideRouter();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        viewModel.addRouter(router);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        viewModel.removeRouter();
     }
 }

@@ -14,9 +14,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
 dependencies {
     api "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
+    implementation "javax.inject:javax.inject:$javaInjectVersion"
 }

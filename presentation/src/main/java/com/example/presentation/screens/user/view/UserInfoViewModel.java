@@ -20,6 +20,7 @@ import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.subjects.PublishSubject;
 
 public class UserInfoViewModel extends BaseViewModel<UserInfoRouter> {
 
@@ -30,6 +31,8 @@ public class UserInfoViewModel extends BaseViewModel<UserInfoRouter> {
     @Inject
     public DeleteUserUseCase deleteUserUseCase;
 
+    public PublishSubject<String> clickSubject = PublishSubject.create();
+
     public ObservableField<String> firstname = new ObservableField<>();
     public ObservableField<String> surname = new ObservableField<>();
     public ObservableField<String> gender = new ObservableField<>();
@@ -37,9 +40,9 @@ public class UserInfoViewModel extends BaseViewModel<UserInfoRouter> {
     public ObservableField<String> email = new ObservableField<>();
     public ObservableField<String> age = new ObservableField<>();
     private String userId;
-    public boolean isDownloading = true;
 
     public UserInfoViewModel() {
+        showProgressBar();
     }
 
     @Override
@@ -58,7 +61,7 @@ public class UserInfoViewModel extends BaseViewModel<UserInfoRouter> {
                     @Override
                     public void onNext(User user) {
                         setUserInfo(user);
-                        isDownloading = false;
+                        dismissProgressBar();
                     }
 
                     @Override
@@ -105,7 +108,7 @@ public class UserInfoViewModel extends BaseViewModel<UserInfoRouter> {
 
                             @Override
                             public void onComplete() {
-
+                                router.finishActivity();
                             }
 
                             @Override
@@ -113,7 +116,6 @@ public class UserInfoViewModel extends BaseViewModel<UserInfoRouter> {
                                 router.showError(e);
                             }
                         });
-                router.finishActivity();
             } else
                 router.showToast(R.string.input_error);
         } else
@@ -133,7 +135,7 @@ public class UserInfoViewModel extends BaseViewModel<UserInfoRouter> {
 
                         @Override
                         public void onComplete() {
-
+                            router.finishActivity();
                         }
 
                         @Override
@@ -142,7 +144,6 @@ public class UserInfoViewModel extends BaseViewModel<UserInfoRouter> {
                         }
                     });
         }
-        router.finishActivity();
     }
 
     private boolean isFilled() {
@@ -152,5 +153,9 @@ public class UserInfoViewModel extends BaseViewModel<UserInfoRouter> {
                 imageUrl.get().length() > 0 &&
                 email.get().length() > 0 &&
                 age.get().length() > 0;
+    }
+
+    public PublishSubject<String> observeClickSubject(){
+        return clickSubject;
     }
 }

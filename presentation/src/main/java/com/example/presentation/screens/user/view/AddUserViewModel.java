@@ -1,4 +1,4 @@
-package com.example.presentation.screens.user.edit;
+package com.example.presentation.screens.user.view;
 
 import android.databinding.ObservableField;
 
@@ -50,7 +50,7 @@ public class AddUserViewModel extends BaseViewModel<AddUserRouter> {
 
                         @Override
                         public void onComplete() {
-
+                            router.finishActivity();
                         }
 
                         @Override
@@ -58,7 +58,6 @@ public class AddUserViewModel extends BaseViewModel<AddUserRouter> {
                             router.showError(e);
                         }
                     });
-            router.finishActivity();
         } else
             router.showToast(R.string.input_error);
     }

@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="user"
-            type="com.example.domain.entity.User" />
+            name="viewModel"
+            type="com.example.presentation.screens.user.list.UserItemViewModel"/>
     </data>
 
     <LinearLayout
@@ -20,21 +20,19 @@
         android:weightSum="6">
 
         <ImageView
-            android:id="@+id/item_iv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@{user.gender}"
-            app:imageUrl="@{user.imageUrl}" />
+            android:background="@{viewModel.gender}"
+            app:imageUrl="@{viewModel.imageUrl}" />
 
         <TextView
-            android:id="@+id/item_tv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:paddingStart="20dp"
             android:layout_weight="5"
-            android:text="@{user.firstname + '\n' + user.surname}"
+            android:text="@{viewModel.firstname + '\n' + viewModel.surname}"
             android:textColor="@android:color/black"
             android:textSize="20sp" />
 

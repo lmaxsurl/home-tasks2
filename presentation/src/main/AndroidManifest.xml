@@ -27,7 +27,7 @@
             android:name="com.example.presentation.screens.user.view.UserInfoActivity"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.example.presentation.screens.user.edit.AddUserActivity"
+            android:name="com.example.presentation.screens.user.view.AddUserActivity"
             android:windowSoftInputMode="adjustResize|stateHidden" />
     </application>
 

@@ -1,6 +1,7 @@
 package com.example.presentation.base;
 
 import android.arch.lifecycle.ViewModel;
+import android.databinding.ObservableBoolean;
 
 import com.example.android.hometasks2.R;
 
@@ -13,6 +14,20 @@ public abstract class BaseViewModel<R extends BaseRouter> extends ViewModel {
     protected R router;
 
     protected abstract void runInject();
+
+    public ObservableBoolean progressBar = new ObservableBoolean(true);
+
+    public void showProgressBar(){
+        progressBar.set(true);
+    }
+
+    public void dismissProgressBar(){
+        progressBar.set(false);
+    }
+
+    public void showProgressBar(int delayTimeMillis){
+
+    }
 
     public BaseViewModel() {
         runInject();

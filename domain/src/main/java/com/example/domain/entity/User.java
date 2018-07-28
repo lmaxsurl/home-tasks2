@@ -2,7 +2,7 @@ package com.example.domain.entity;
 
 import android.util.Log;
 
-public class User implements DomainModel, Comparable<User> {
+public class User implements DomainModel {
 
     private static final String TAG = "AAA User";
     private String firstname;
@@ -54,9 +54,7 @@ public class User implements DomainModel, Comparable<User> {
     }
 
     @Override
-    public int compareTo(User user) {
-        return surname.equals(user.surname)?
-                firstname.compareTo(user.firstname) :
-                surname.compareTo(user.surname);
+    public boolean equals(Object obj) {
+        return obj instanceof User && this.objectId.equals(((User) obj).getObjectId());
     }
 }

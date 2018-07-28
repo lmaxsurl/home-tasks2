@@ -14,11 +14,11 @@ public class MainActivityViewModel extends BaseViewModel<MainActivityRouter> {
     }
 
 
-    public void onHomeTask9Click(View view){
+    public void onHomeTask9Click(){
         router.showHomeTask9();
     }
 
-    public void onHomeTask11Click(View view){
+    public void onHomeTask11Click(){
         router.showHomeTask11();
     }
 }

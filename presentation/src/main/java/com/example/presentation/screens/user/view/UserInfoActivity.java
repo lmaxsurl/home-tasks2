@@ -43,20 +43,7 @@ public class UserInfoActivity extends BaseMvvmActivity<
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(getIntent().getExtras() != null){
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    viewModel.loadUser(getIntent().getStringExtra(EXTRA_OBJECT_ID));
-                    while(viewModel.isDownloading);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            binding.progressBar.setVisibility(View.GONE);
-                            binding.userContainer.setVisibility(View.VISIBLE);
-                        }
-                    });
-                }
-            }).start();
+            viewModel.loadUser(getIntent().getStringExtra(EXTRA_OBJECT_ID));
         } else
             finish();
     }

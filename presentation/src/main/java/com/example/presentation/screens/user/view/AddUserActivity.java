@@ -1,4 +1,4 @@
-package com.example.presentation.screens.user.edit;
+package com.example.presentation.screens.user.view;
 
 import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
@@ -7,7 +7,6 @@ import android.content.Intent;
 import com.example.android.hometasks2.R;
 import com.example.android.hometasks2.databinding.ActivityAddUserBinding;
 import com.example.presentation.base.BaseMvvmActivity;
-import com.example.presentation.screens.user.view.UserInfoActivity;
 
 public class AddUserActivity extends BaseMvvmActivity<AddUserViewModel,ActivityAddUserBinding,AddUserRouter> {
 

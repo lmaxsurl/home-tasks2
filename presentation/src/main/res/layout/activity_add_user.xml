@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.presentation.screens.user.edit.AddUserViewModel" />
+            type="com.example.presentation.screens.user.view.AddUserViewModel" />
     </data>
 
     <ScrollView

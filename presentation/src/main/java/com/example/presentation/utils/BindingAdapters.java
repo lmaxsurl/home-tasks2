@@ -1,4 +1,4 @@
-package com.example.presentation.screens.user;
+package com.example.presentation.utils;
 
 import android.databinding.BindingAdapter;
 import android.graphics.Color;
@@ -10,7 +10,7 @@ import com.squareup.picasso.Picasso;
 
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
-public class CustomSetters {
+public class BindingAdapters {
     private static final String KEY_MEN = "men";
     private static final String KEY_WOMEN = "women";
     private static final int MAN_COLOR = Color.rgb(70, 130, 180);
@@ -34,5 +34,10 @@ public class CustomSetters {
             else if (gender.equalsIgnoreCase(KEY_WOMEN))
                 view.setBackgroundColor(WOMEN_COLOR);
             else view.setBackgroundColor(Color.RED);
+    }
+
+    @BindingAdapter("android:visibility")
+    public static void setVisibility(View view, Boolean isVisible){
+        view.setVisibility(isVisible ? View.VISIBLE : View.GONE);
     }
 }

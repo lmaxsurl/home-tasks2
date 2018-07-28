@@ -16,12 +16,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/home_task_9"
-            android:onClick="@{viewModel::onHomeTask9Click}"/>
+            android:onClick="@{() -> viewModel.onHomeTask9Click()}"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/home_task_11"
-            android:onClick="@{viewModel::onHomeTask11Click}"/>
+            android:onClick="@{() -> viewModel.onHomeTask11Click()}"/>
     </LinearLayout>
 </layout>

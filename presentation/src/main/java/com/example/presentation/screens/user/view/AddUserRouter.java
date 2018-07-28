@@ -1,4 +1,4 @@
-package com.example.presentation.screens.user.edit;
+package com.example.presentation.screens.user.view;
 
 import com.example.presentation.base.BaseRouter;
 

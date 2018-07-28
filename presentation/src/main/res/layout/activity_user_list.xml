@@ -13,6 +13,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:visibility="@{viewModel.progressBar}"/>
+
         <EditText
             android:id="@+id/find_user_et"
             android:layout_width="match_parent"
@@ -23,17 +29,10 @@
             android:hint="@string/find"
             android:inputType="text" />
 
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"/>
-
         <FrameLayout
-            android:id="@+id/list_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone">
+            android:visibility="@{!viewModel.progressBar}">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/user_list_rv"

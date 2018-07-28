@@ -18,4 +18,5 @@
     <string name="error">непредвиденная ошибка</string>
     <string name="image_url">Image Url</string>
     <string name="input_error">Check the entered data!</string>
+    <string name="conversion_error">Error: problems with type conversions</string>
 </resources>

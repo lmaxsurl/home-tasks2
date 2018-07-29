@@ -1,4 +1,4 @@
-package com.example.presentation.screens.activities;
+package com.example.presentation.screens.mainActivity;
 
 import com.example.presentation.base.BaseRouter;
 import com.example.presentation.screens.user.list.UserListActivity;

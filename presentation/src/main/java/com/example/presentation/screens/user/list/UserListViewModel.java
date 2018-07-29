@@ -6,6 +6,7 @@ import com.example.domain.entity.User;
 import com.example.domain.usecases.DeleteUserUseCase;
 import com.example.domain.usecases.GetListUserUseCase;
 import com.example.domain.usecases.GetUserUseCase;
+import com.example.domain.usecases.SearchUserUseCase;
 import com.example.presentation.base.BaseViewModel;
 import com.example.presentation.recycler.ClickedItemModel;
 import com.example.presentation.utils.Extras;
@@ -31,6 +32,9 @@ public class UserListViewModel extends BaseViewModel<UserListRouter> {
     @Inject
     public DeleteUserUseCase deleteUserUseCase;
 
+    @Inject
+    public SearchUserUseCase searchUserUseCase;
+
     public UserListViewModel() {
         showProgressBar();
         getData();
@@ -44,8 +48,8 @@ public class UserListViewModel extends BaseViewModel<UserListRouter> {
 
                     @Override
                     public void onNext(ClickedItemModel clickedItemModel) {
-                        if(clickedItemModel.getEntity() instanceof User){
-                            router.goToUserDetails(((User)clickedItemModel.getEntity()).getObjectId());
+                        if (clickedItemModel.getEntity() instanceof User) {
+                            router.goToUserDetails(((User) clickedItemModel.getEntity()).getObjectId());
                         } else {
                             router.showToast(R.string.conversion_error);
                         }
@@ -101,22 +105,50 @@ public class UserListViewModel extends BaseViewModel<UserListRouter> {
     }
 
     public void onChangeText(String text) {
+        if(text.equals("")){
+            getData();
+        } else {
+            showProgressBar();
+            searchUserUseCase
+                    .searchUsers(text)
+                    .subscribe(new Observer<List<User>>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+                            getCompositeDisposable().add(d);
+                        }
 
+                        @Override
+                        public void onNext(List<User> users) {
+                            adapter.setItems(users);
+                            dismissProgressBar();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            router.showError(e);
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        }
     }
 
-    public void onAddUser(String userId){
+    public void onAddUser(String userId) {
         changeAdapterList(userId, Extras.EXTRA_ADD_METHOD);
     }
 
-    public void onEditUser(String userId){
+    public void onEditUser(String userId) {
         changeAdapterList(userId, Extras.EXTRA_EDIT_METHOD);
     }
 
-    public void onDeleteUser(String userId){
+    public void onDeleteUser(String userId) {
         changeAdapterList(userId, Extras.EXTRA_DELETE_METHOD);
     }
 
-    private void changeAdapterList(String userId, final String requiredMethod){
+    private void changeAdapterList(String userId, final String requiredMethod) {
         showProgressBar();
         getUserUseCase
                 .getUser(userId)
@@ -128,15 +160,13 @@ public class UserListViewModel extends BaseViewModel<UserListRouter> {
 
                     @Override
                     public void onNext(User user) {
-                        if(requiredMethod.equals(Extras.EXTRA_ADD_METHOD)) {
+                        if (requiredMethod.equals(Extras.EXTRA_ADD_METHOD)) {
                             adapter.addItem(user);
                             dismissProgressBar();
-                        }
-                        else if(requiredMethod.equals(Extras.EXTRA_EDIT_METHOD)) {
+                        } else if (requiredMethod.equals(Extras.EXTRA_EDIT_METHOD)) {
                             adapter.editItem(user);
                             dismissProgressBar();
-                        }
-                        else if(requiredMethod.equals(Extras.EXTRA_DELETE_METHOD))
+                        } else if (requiredMethod.equals(Extras.EXTRA_DELETE_METHOD))
                             deleteUser(user);
                     }
 

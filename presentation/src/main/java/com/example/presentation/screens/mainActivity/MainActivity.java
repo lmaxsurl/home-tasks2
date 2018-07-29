@@ -1,4 +1,4 @@
-package com.example.presentation.screens.activities;
+package com.example.presentation.screens.mainActivity;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.support.annotation.Nullable;

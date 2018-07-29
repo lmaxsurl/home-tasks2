@@ -1,6 +1,6 @@
 package com.example.injection;
 
-import com.example.presentation.screens.activities.MainActivityViewModel;
+import com.example.presentation.screens.mainActivity.MainActivityViewModel;
 import com.example.presentation.screens.user.view.AddUserViewModel;
 import com.example.presentation.screens.user.list.UserListViewModel;
 import com.example.presentation.screens.user.view.UserInfoViewModel;

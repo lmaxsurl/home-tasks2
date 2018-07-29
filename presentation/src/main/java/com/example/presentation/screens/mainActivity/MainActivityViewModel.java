@@ -1,7 +1,4 @@
-package com.example.presentation.screens.activities;
-
-import android.databinding.BindingAdapter;
-import android.view.View;
+package com.example.presentation.screens.mainActivity;
 
 import com.example.app.App;
 import com.example.presentation.base.BaseViewModel;

@@ -96,4 +96,20 @@ public class UserRepositoryImpl implements UserRepository {
         userRequest.setObjectId(setObjectId? user.getObjectId() : "");
         return userRequest;
     }
+
+    @Override
+    public Observable<List<User>> search(String search) {
+        return restService
+                .search(search)
+                .map(new Function<List<UserResponse>, List<User>>() {
+                    @Override
+                    public List<User> apply(List<UserResponse> userResponses) throws Exception {
+                        final List<User> list = new ArrayList<>();
+                        for (UserResponse userResponse : userResponses) {
+                            list.add(mapUser(userResponse));
+                        }
+                        return list;
+                    }
+                });
+    }
 }

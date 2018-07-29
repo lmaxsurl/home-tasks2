@@ -88,4 +88,10 @@ public class RestService {
                 .addUser(user)
                 .compose(errorParserTransformer.<UserResponse, HttpError>parseHttpError());
     }
+
+    public Observable<List<UserResponse>> search(String search) {
+        return restApi
+                .searchUsers("firstname LIKE '%" + search + "%' OR surname LIKE '%" + search + "%'")
+                .compose(errorParserTransformer.<List<UserResponse>, HttpError>parseHttpError());
+    }
 }

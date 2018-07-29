@@ -90,4 +90,10 @@ public class UserListActivity extends BaseMvvmActivity<UserListViewModel,
             }
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        binding.findUserEt.setText("");
+    }
 }

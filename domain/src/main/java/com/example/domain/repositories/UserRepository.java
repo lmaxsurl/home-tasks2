@@ -1,6 +1,4 @@
 package com.example.domain.repositories;
-
-
 import com.example.domain.entity.User;
 
 import java.util.List;
@@ -19,4 +17,6 @@ public interface UserRepository {
     Completable delete(String id);
 
     Observable<User> add(User user);
+
+    Observable<List<User>> search(String search);
 }

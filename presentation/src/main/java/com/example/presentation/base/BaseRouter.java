@@ -1,10 +1,14 @@
 package com.example.presentation.base;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.android.hometasks2.R;
 import com.example.domain.entity.Error;
+import com.example.presentation.screens.user.view.UserInfoActivity;
+import com.example.presentation.utils.Extras;
 
 public class BaseRouter<A extends BaseActivity> {
 
@@ -15,23 +19,21 @@ public class BaseRouter<A extends BaseActivity> {
     }
 
     public void showError(Throwable throwable) {
-
         if(throwable instanceof Error) {
-
             Error error = (Error)throwable;
             switch (error.getType()) {
-                case INTERNET_IS_NOT_AVAILABLE:{
+                case INTERNET_IS_NOT_AVAILABLE:
                     showToastError(R.string.error_internet_not_available);
                     break;
-                }
-                case SERVER_IS_NOT_AVAILABLE: {
+                case SERVER_IS_NOT_AVAILABLE:
                     showToastError(R.string.error_server_not_available);
                     break;
-                }
-                case SERVER_ERROR: {
+                case SERVER_ERROR:
                     showToastError(R.string.error_server);
                     break;
-                }
+                case REQUEST_ERROR:
+                    showToastError(R.string.input_error);
+                    break;
                 default: {
                     //снова непредвиденная ошибка
                     //делаем соответствующий отчет
@@ -49,7 +51,6 @@ public class BaseRouter<A extends BaseActivity> {
     }
 
     private void showToastError(int messageErrorId) {
-        //показываете пользователю нейтральное сообщение об ошибке
         Toast.makeText(activity, messageErrorId, Toast.LENGTH_SHORT)
                 .show();
     }
@@ -58,11 +59,19 @@ public class BaseRouter<A extends BaseActivity> {
         activity.finish();
     }
 
-    public void showToast(String message){
-        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
-    }
-
     public void showToast(int messageId){
         Toast.makeText(activity, messageId, Toast.LENGTH_SHORT).show();
+    }
+
+    public void sendChanges(int resultCode, String objectId){
+        Intent data = new Intent();
+        data.putExtra(Extras.EXTRA_OBJECT_ID, objectId);
+        activity.setResult(resultCode, data);
+        activity.finish();
+    }
+
+    public void sendCancelled(){
+        activity.setResult(Activity.RESULT_CANCELED);
+        activity.finish();
     }
 }

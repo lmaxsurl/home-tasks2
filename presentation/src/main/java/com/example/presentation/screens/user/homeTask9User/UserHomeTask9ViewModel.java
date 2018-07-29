@@ -18,10 +18,8 @@ import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 public class UserHomeTask9ViewModel extends BaseViewModel {
 
-
     @Inject
     public GetListUserUseCase listUserUseCase;
-    private static final String TAG = "AAA UserVM";
     public ObservableField<String> firstName = new ObservableField<>("Mark");
     public ObservableField<String> surname = new ObservableField<>("Fender");
     public ObservableField<String> gender = new ObservableField<>("Men");
@@ -31,14 +29,7 @@ public class UserHomeTask9ViewModel extends BaseViewModel {
 
     @Override
     protected void runInject() {
-        Log.d(TAG, "runInject: ");
         App.getAppComponent().runInject(this);
     }
-
-    public UserHomeTask9ViewModel() {
-        Log.d(TAG, "UserHomeTask9ViewModel: constructor");
-    }
-
-
 }
 

@@ -8,59 +8,73 @@
             type="com.example.presentation.screens.user.view.AddUserViewModel" />
     </data>
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:visibility="@{viewModel.progressBar}"
+            />
+
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_margin="10dp"
+            android:visibility="@{!viewModel.progressBar}">
 
-            <EditText
-                style="@style/StudentEditText"
-                android:hint="@string/name"
-                android:inputType="text"
-                android:text="@={viewModel.firstname}" />
-
-            <EditText
-                style="@style/StudentEditText"
-                android:hint="@string/surname"
-                android:inputType="text"
-                android:text="@={viewModel.surname}" />
-
-            <EditText
-                style="@style/StudentEditText"
-                android:hint="@string/gender"
-                android:inputType="text"
-                android:text="@={viewModel.gender}" />
-
-            <EditText
-                style="@style/StudentEditText"
-                android:hint="@string/age"
-                android:inputType="number"
-                android:text="@={viewModel.age}" />
-
-            <EditText
-                style="@style/StudentEditText"
-                android:hint="@string/email"
-                android:inputType="textEmailAddress"
-                android:text="@={viewModel.email}" />
-
-            <EditText
-                style="@style/StudentEditText"
-                android:hint="@string/image_url"
-                android:inputType="textUri"
-                android:text="@={viewModel.imageUrl}" />
-
-            <Button
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:onClick="@{() -> viewModel.onAddClick()}"
-                android:text="@string/add" />
+                android:orientation="vertical">
 
-        </LinearLayout>
-    </ScrollView>
+                <EditText
+                    style="@style/StudentEditText"
+                    android:hint="@string/name"
+                    android:inputType="text"
+                    android:text="@={viewModel.firstname}" />
+
+                <EditText
+                    style="@style/StudentEditText"
+                    android:hint="@string/surname"
+                    android:inputType="text"
+                    android:text="@={viewModel.surname}" />
+
+                <EditText
+                    style="@style/StudentEditText"
+                    android:hint="@string/gender"
+                    android:inputType="text"
+                    android:text="@={viewModel.gender}" />
+
+                <EditText
+                    style="@style/StudentEditText"
+                    android:hint="@string/age"
+                    android:inputType="number"
+                    android:text="@={viewModel.age}" />
+
+                <EditText
+                    style="@style/StudentEditText"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress"
+                    android:text="@={viewModel.email}" />
+
+                <EditText
+                    style="@style/StudentEditText"
+                    android:hint="@string/image_url"
+                    android:inputType="textUri"
+                    android:text="@={viewModel.imageUrl}" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:onClick="@{() -> viewModel.onAddClick()}"
+                    android:text="@string/add" />
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
 </layout>

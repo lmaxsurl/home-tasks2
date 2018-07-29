@@ -14,12 +14,18 @@ import android.view.View;
 import com.example.android.hometasks2.R;
 import com.example.android.hometasks2.databinding.ActivityUserListBinding;
 import com.example.presentation.base.BaseMvvmActivity;
+import com.example.presentation.screens.user.view.UserInfoActivity;
+import com.example.presentation.screens.user.view.UserInfoViewModel;
+import com.example.presentation.utils.Extras;
 
 public class UserListActivity extends BaseMvvmActivity<UserListViewModel,
         ActivityUserListBinding,
         UserListRouter> {
 
-    public static Intent getIntent(Activity activity){
+    public static final int REQUEST_ADD_TYPE = 0;
+    public static final int REQUEST_INFO_TYPE = 1;
+
+    public static Intent getIntent(Activity activity) {
         return new Intent(activity, UserListActivity.class);
     }
 
@@ -60,5 +66,28 @@ public class UserListActivity extends BaseMvvmActivity<UserListViewModel,
                 viewModel.onChangeText(binding.findUserEt.getText().toString());
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        String userId;
+        if (data != null && data.getStringExtra(Extras.EXTRA_OBJECT_ID) != null)
+            userId = data.getStringExtra(Extras.EXTRA_OBJECT_ID);
+        else {
+            super.onActivityResult(requestCode, resultCode, data);
+            return;
+        }
+        if (requestCode == REQUEST_ADD_TYPE) {
+            if (resultCode == RESULT_OK) {
+                viewModel.onAddUser(userId);
+            }
+        } else if (requestCode == REQUEST_INFO_TYPE) {
+            if (resultCode == Extras.RESULT_EDIT) {
+                viewModel.onEditUser(userId);
+            }
+            if (resultCode == Extras.RESULT_DELETE) {
+                viewModel.onDeleteUser(userId);
+            }
+        }
     }
 }

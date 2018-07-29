@@ -18,7 +18,6 @@ import dagger.Provides;
 @Module
 public class AppModule {
 
-    private static final String TAG = "AAA AppModule";
     private Context context;
 
     public AppModule(Context context) {
@@ -28,20 +27,17 @@ public class AppModule {
     @Provides
     @Singleton
     public Context provideContext() {
-        Log.d(TAG, "provideContext: ");
         return context;
     }
 
     @Provides
     public static UserRepository provideUserRepository() {
-        Log.d(TAG, "provideUserRepository: ");
         return new UserRepositoryImpl(new RestService());
     }
 
     @Provides
     @Singleton
     public static PostExecutionThread provideUIThread(UIThread uiThread){
-        Log.d(TAG, "provideUIThread: ");
         return uiThread;
     }
 }

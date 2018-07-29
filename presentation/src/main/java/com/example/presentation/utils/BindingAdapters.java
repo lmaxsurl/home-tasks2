@@ -13,8 +13,6 @@ import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 public class BindingAdapters {
     private static final String KEY_MEN = "men";
     private static final String KEY_WOMEN = "women";
-    private static final int MAN_COLOR = Color.rgb(70, 130, 180);
-    private static final int WOMEN_COLOR = Color.rgb(255, 20, 147);
 
     @BindingAdapter("imageUrl")
     public static void loadImage(ImageView view, String url) {
@@ -30,9 +28,9 @@ public class BindingAdapters {
     public static void setBackground(View view, String gender) {
         if (gender != null)
             if (gender.equalsIgnoreCase(KEY_MEN))
-                view.setBackgroundColor(MAN_COLOR);
+                view.setBackgroundColor(Color.BLUE);
             else if (gender.equalsIgnoreCase(KEY_WOMEN))
-                view.setBackgroundColor(WOMEN_COLOR);
+                view.setBackgroundColor(Color.MAGENTA);
             else view.setBackgroundColor(Color.RED);
     }
 

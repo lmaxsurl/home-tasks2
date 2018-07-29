@@ -13,6 +13,7 @@ import com.example.domain.usecases.DeleteUserUseCase;
 import com.example.domain.usecases.GetUserUseCase;
 import com.example.domain.usecases.UpdateUserUseCase;
 import com.example.presentation.base.BaseViewModel;
+import com.example.presentation.utils.Extras;
 
 import javax.inject.Inject;
 
@@ -28,10 +29,6 @@ public class UserInfoViewModel extends BaseViewModel<UserInfoRouter> {
     public GetUserUseCase userUseCase;
     @Inject
     public UpdateUserUseCase updateUserUseCase;
-    @Inject
-    public DeleteUserUseCase deleteUserUseCase;
-
-    public PublishSubject<String> clickSubject = PublishSubject.create();
 
     public ObservableField<String> firstname = new ObservableField<>();
     public ObservableField<String> surname = new ObservableField<>();
@@ -88,45 +85,17 @@ public class UserInfoViewModel extends BaseViewModel<UserInfoRouter> {
     }
 
     public void onEditClick() {
-        if (router.getUserId() != null) {
-            userId = router.getUserId();
-            if (isFilled()) {
-                updateUserUseCase
-                        .updateUser(new User(
-                                firstname.get(),
-                                surname.get(),
-                                gender.get(),
-                                imageUrl.get(),
-                                email.get(),
-                                Integer.parseInt(age.get()),
-                                userId))
-                        .subscribe(new CompletableObserver() {
-                            @Override
-                            public void onSubscribe(Disposable d) {
-                                getCompositeDisposable().add(d);
-                            }
-
-                            @Override
-                            public void onComplete() {
-                                router.finishActivity();
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                router.showError(e);
-                            }
-                        });
-            } else
-                router.showToast(R.string.input_error);
-        } else
-            router.finishActivity();
-    }
-
-    public void onDeleteClick() {
-        if (router.getUserId() != null) {
-            userId = router.getUserId();
-            deleteUserUseCase
-                    .deleteUser(userId)
+        if (isFilled()) {
+            showProgressBar();
+            updateUserUseCase
+                    .updateUser(new User(
+                            firstname.get(),
+                            surname.get(),
+                            gender.get(),
+                            imageUrl.get(),
+                            email.get(),
+                            Integer.parseInt(age.get()),
+                            userId))
                     .subscribe(new CompletableObserver() {
                         @Override
                         public void onSubscribe(Disposable d) {
@@ -135,7 +104,7 @@ public class UserInfoViewModel extends BaseViewModel<UserInfoRouter> {
 
                         @Override
                         public void onComplete() {
-                            router.finishActivity();
+                            router.sendChanges(Extras.RESULT_EDIT, userId);
                         }
 
                         @Override
@@ -143,7 +112,13 @@ public class UserInfoViewModel extends BaseViewModel<UserInfoRouter> {
                             router.showError(e);
                         }
                     });
-        }
+        } else
+            router.showToast(R.string.input_error);
+    }
+
+    public void onDeleteClick() {
+        showProgressBar();
+        router.sendChanges(Extras.RESULT_DELETE, userId);
     }
 
     private boolean isFilled() {
@@ -153,9 +128,5 @@ public class UserInfoViewModel extends BaseViewModel<UserInfoRouter> {
                 imageUrl.get().length() > 0 &&
                 email.get().length() > 0 &&
                 age.get().length() > 0;
-    }
-
-    public PublishSubject<String> observeClickSubject(){
-        return clickSubject;
     }
 }

@@ -28,4 +28,10 @@ public class AddUserActivity extends BaseMvvmActivity<AddUserViewModel,ActivityA
     protected AddUserRouter provideRouter() {
         return new AddUserRouter(this);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        router.sendCancelled();
+    }
 }

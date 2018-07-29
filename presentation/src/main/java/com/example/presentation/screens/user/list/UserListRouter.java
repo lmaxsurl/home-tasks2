@@ -11,11 +11,12 @@ public class UserListRouter extends BaseRouter<UserListActivity> {
     }
 
     public void goToUserDetails(String id) {
-        activity.startActivity(UserInfoActivity.getIntent(activity, id));
+        activity.startActivityForResult(UserInfoActivity.getIntent(activity, id),
+                UserListActivity.REQUEST_INFO_TYPE);
     }
 
     public void goToAddUser(){
-        activity.startActivity(AddUserActivity.getIntent(activity));
+        activity.startActivityForResult(AddUserActivity.getIntent(activity),
+                UserListActivity.REQUEST_ADD_TYPE);
     }
-
 }

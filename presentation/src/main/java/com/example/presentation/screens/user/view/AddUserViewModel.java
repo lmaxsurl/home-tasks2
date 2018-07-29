@@ -1,5 +1,6 @@
 package com.example.presentation.screens.user.view;
 
+import android.app.Activity;
 import android.databinding.ObservableField;
 
 import com.example.android.hometasks2.R;
@@ -11,6 +12,7 @@ import com.example.presentation.base.BaseViewModel;
 import javax.inject.Inject;
 
 import io.reactivex.CompletableObserver;
+import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 public class AddUserViewModel extends BaseViewModel<AddUserRouter> {
@@ -25,14 +27,18 @@ public class AddUserViewModel extends BaseViewModel<AddUserRouter> {
     public ObservableField<String> email = new ObservableField<>("");
     public ObservableField<String> age = new ObservableField<>("");
 
-
     @Override
     protected void runInject() {
         App.getAppComponent().runInject(this);
     }
 
+    public AddUserViewModel() {
+        dismissProgressBar();
+    }
+
     public void onAddClick() {
         if (isFilled()) {
+            showProgressBar();
             addUserUseCase
                     .addUser(new User(
                             firstname.get(),
@@ -42,20 +48,29 @@ public class AddUserViewModel extends BaseViewModel<AddUserRouter> {
                             email.get(),
                             Integer.parseInt(age.get()),
                             null))
-                    .subscribe(new CompletableObserver() {
+                    .subscribe(new Observer<User>() {
                         @Override
                         public void onSubscribe(Disposable d) {
                             getCompositeDisposable().add(d);
                         }
 
                         @Override
-                        public void onComplete() {
-                            router.finishActivity();
+                        public void onNext(User user) {
+                            router.sendChanges(Activity.RESULT_OK, user.getObjectId());
                         }
 
                         @Override
                         public void onError(Throwable e) {
-                            router.showError(e);
+                            if(e.toString().contains("400")){
+                                dismissProgressBar();
+                                router.showToast(R.string.input_error);
+                            } else
+                                router.showError(e);
+                        }
+
+                        @Override
+                        public void onComplete() {
+
                         }
                     });
         } else

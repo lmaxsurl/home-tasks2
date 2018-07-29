@@ -19,12 +19,10 @@ import io.reactivex.functions.Function;
 
 public class UserRepositoryImpl implements UserRepository {
 
-    private static final String TAG = "AAA UserReposImpl";
     private RestService restService;
 
     @Inject
     public UserRepositoryImpl(RestService restService) {
-        Log.d(TAG, "UserRepositoryImpl: ");
         this.restService = restService;
     }
 
@@ -37,13 +35,7 @@ public class UserRepositoryImpl implements UserRepository {
                     public List<User> apply(List<UserResponse> userResponses) throws Exception {
                         final List<User> list = new ArrayList<>();
                         for (UserResponse userResponse : userResponses) {
-                            list.add(new User(userResponse.getFirstname(),
-                                    userResponse.getSurname(),
-                                    userResponse.getGender(),
-                                    userResponse.getImageUrl(),
-                                    userResponse.getEmail(),
-                                    userResponse.getAge(),
-                                    userResponse.getObjectId()));
+                            list.add(mapUser(userResponse));
                         }
                         return list;
                     }
@@ -56,28 +48,14 @@ public class UserRepositoryImpl implements UserRepository {
                 .map(new Function<UserResponse, User>() {
                     @Override
                     public User apply(UserResponse userResponse) throws Exception {
-                        return new User(userResponse.getFirstname(),
-                                userResponse.getSurname(),
-                                userResponse.getGender(),
-                                userResponse.getImageUrl(),
-                                userResponse.getEmail(),
-                                userResponse.getAge(),
-                                userResponse.getObjectId());
+                        return mapUser(userResponse);
                     }
                 });
     }
 
     @Override
     public Completable update(User user) {
-        UserRequest userRequest = new UserRequest();
-        userRequest.setFirstname(user.getFirstname());
-        userRequest.setSurname(user.getSurname());
-        userRequest.setAge(user.getAge());
-        userRequest.setEmail(user.getEmail());
-        userRequest.setGender(user.getGender());
-        userRequest.setImageUrl(user.getImageUrl());
-        userRequest.setObjectId(user.getObjectId());
-        return restService.updateUser(userRequest);
+        return restService.updateUser(mapUserRequest(user, true));
     }
 
     @Override
@@ -86,7 +64,28 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Completable add(User user) {
+    public Observable<User> add(User user) {
+        return restService
+                .addUser(mapUserRequest(user, false))
+                .map(new Function<UserResponse, User>() {
+                    @Override
+                    public User apply(UserResponse userResponse) throws Exception {
+                        return mapUser(userResponse);
+                    }
+                });
+    }
+
+    private User mapUser(UserResponse userResponse){
+        return new User(userResponse.getFirstname(),
+                userResponse.getSurname(),
+                userResponse.getGender(),
+                userResponse.getImageUrl(),
+                userResponse.getEmail(),
+                userResponse.getAge(),
+                userResponse.getObjectId());
+    }
+
+    private UserRequest mapUserRequest(User user, boolean setObjectId){
         UserRequest userRequest = new UserRequest();
         userRequest.setFirstname(user.getFirstname());
         userRequest.setSurname(user.getSurname());
@@ -94,7 +93,7 @@ public class UserRepositoryImpl implements UserRepository {
         userRequest.setEmail(user.getEmail());
         userRequest.setGender(user.getGender());
         userRequest.setImageUrl(user.getImageUrl());
-        userRequest.setObjectId("");
-        return restService.addUser(userRequest);
+        userRequest.setObjectId(setObjectId? user.getObjectId() : "");
+        return userRequest;
     }
 }

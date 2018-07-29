@@ -26,7 +26,7 @@ public interface RestApi {
     Completable updateUser(@Body UserRequest user, @Path("id") String id);
 
     @POST("data/User")
-    Completable addUser(@Body UserRequest user);
+    Observable<UserResponse> addUser(@Body UserRequest user);
 
     @DELETE("data/User/{id}")
     Completable deleteUser(@Path("id") String id);

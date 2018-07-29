@@ -3,14 +3,18 @@ package com.example.presentation.screens.user.list;
 import com.example.android.hometasks2.R;
 import com.example.app.App;
 import com.example.domain.entity.User;
+import com.example.domain.usecases.DeleteUserUseCase;
 import com.example.domain.usecases.GetListUserUseCase;
+import com.example.domain.usecases.GetUserUseCase;
 import com.example.presentation.base.BaseViewModel;
 import com.example.presentation.recycler.ClickedItemModel;
+import com.example.presentation.utils.Extras;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.CompletableObserver;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
@@ -20,6 +24,12 @@ public class UserListViewModel extends BaseViewModel<UserListRouter> {
 
     @Inject
     public GetListUserUseCase listUserUseCase;
+
+    @Inject
+    public GetUserUseCase getUserUseCase;
+
+    @Inject
+    public DeleteUserUseCase deleteUserUseCase;
 
     public UserListViewModel() {
         showProgressBar();
@@ -86,7 +96,7 @@ public class UserListViewModel extends BaseViewModel<UserListRouter> {
                 });
     }
 
-    public void onFabClick() {
+    public void onAddClick() {
         router.goToAddUser();
     }
 
@@ -94,7 +104,75 @@ public class UserListViewModel extends BaseViewModel<UserListRouter> {
 
     }
 
+    public void onAddUser(String userId){
+        changeAdapterList(userId, Extras.EXTRA_ADD_METHOD);
+    }
 
+    public void onEditUser(String userId){
+        changeAdapterList(userId, Extras.EXTRA_EDIT_METHOD);
+    }
+
+    public void onDeleteUser(String userId){
+        changeAdapterList(userId, Extras.EXTRA_DELETE_METHOD);
+    }
+
+    private void changeAdapterList(String userId, final String requiredMethod){
+        showProgressBar();
+        getUserUseCase
+                .getUser(userId)
+                .subscribe(new Observer<User>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        getCompositeDisposable().add(d);
+                    }
+
+                    @Override
+                    public void onNext(User user) {
+                        if(requiredMethod.equals(Extras.EXTRA_ADD_METHOD)) {
+                            adapter.addItem(user);
+                            dismissProgressBar();
+                        }
+                        else if(requiredMethod.equals(Extras.EXTRA_EDIT_METHOD)) {
+                            adapter.editItem(user);
+                            dismissProgressBar();
+                        }
+                        else if(requiredMethod.equals(Extras.EXTRA_DELETE_METHOD))
+                            deleteUser(user);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        router.showError(e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    private void deleteUser(User user) {
+        adapter.removeItem(user);
+        deleteUserUseCase
+                .deleteUser(user.getObjectId())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        getCompositeDisposable().add(d);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        dismissProgressBar();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        router.showError(e);
+                    }
+                });
+    }
 }
 
 

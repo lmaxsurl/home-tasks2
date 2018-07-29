@@ -27,7 +27,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Singleton
 public class RestService {
 
-    private static final String TAG = "AAA RestService";
     private RestApi restApi;
     private Gson gson;
     private static final String REQUEST_URL =
@@ -36,8 +35,6 @@ public class RestService {
 
     @Inject
     public RestService() {
-        Log.d(TAG, "RestService: constructor");
-
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -65,35 +62,30 @@ public class RestService {
     }
 
     public Observable<List<UserResponse>> getAllUsers() {
-        Log.d(TAG, "getAllUsers: ");
         return restApi
                 .getAllUsers()
                 .compose(errorParserTransformer.<List<UserResponse>, HttpError>parseHttpError());
     }
 
     public Observable<UserResponse> getUser(String id) {
-        Log.d(TAG, "getUser: ");
         return restApi
                 .getUser(id)
                 .compose(errorParserTransformer.<UserResponse, HttpError>parseHttpError());
     }
 
     public Completable updateUser(UserRequest user) {
-        Log.d(TAG, "updateUser: ");
         return restApi
                 .updateUser(user, user.getObjectId());
-                //.compose(errorParserTransformer.<CompletableTransformer, HttpError>parseHttpError());
     }
 
     public Completable deleteUser(String id) {
-        Log.d(TAG, "deleteUser: ");
         return restApi
                 .deleteUser(id);
-                //.compose(errorParserTransformer.<DeleteResponse, HttpError>parseHttpError());
     }
 
-    public Completable addUser(UserRequest user){
+    public Observable<UserResponse> addUser(UserRequest user){
         return restApi
-                .addUser(user);
+                .addUser(user)
+                .compose(errorParserTransformer.<UserResponse, HttpError>parseHttpError());
     }
 }

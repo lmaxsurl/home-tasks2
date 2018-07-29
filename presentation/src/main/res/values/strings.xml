@@ -7,7 +7,7 @@
     <string name="surname">Surname</string>
     <string name="age">Age</string>
     <string name="add">Add</string>
-    <string name="email">Email</string>
+    <string name="email">example@example.com</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="find">Find</string>
@@ -15,7 +15,7 @@
     <string name="error_internet_not_available">Internet is not available</string>
     <string name="error_server_not_available">server is not available</string>
     <string name="error_server">server error</string>
-    <string name="error">непредвиденная ошибка</string>
+    <string name="error">Unexpected error</string>
     <string name="image_url">Image Url</string>
     <string name="input_error">Check the entered data!</string>
     <string name="conversion_error">Error: problems with type conversions</string>

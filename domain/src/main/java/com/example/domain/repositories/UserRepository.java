@@ -18,5 +18,5 @@ public interface UserRepository {
 
     Completable delete(String id);
 
-    Completable add(User user);
+    Observable<User> add(User user);
 }

@@ -7,6 +7,7 @@ import com.example.domain.repositories.UserRepository;
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 
 public class AddUserUseCase extends BaseUseCase {
 
@@ -19,7 +20,7 @@ public class AddUserUseCase extends BaseUseCase {
         this.userRepository = userRepository;
     }
 
-    public Completable addUser(User user) {
+    public Observable<User> addUser(User user) {
         return userRepository
                 .add(user)
                 .subscribeOn(executionThread)

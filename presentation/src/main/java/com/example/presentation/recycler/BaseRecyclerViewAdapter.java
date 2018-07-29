@@ -40,6 +40,12 @@ public abstract class BaseRecyclerViewAdapter<
         notifyItemRemoved(index);
     }
 
+    public void editItem(Entity entity){
+        int index = this.items.indexOf(entity);
+        this.items.set(index, entity);
+        notifyItemChanged(index);
+    }
+
     public void moveItem(int fromPosition, int toPosition){
         Entity item = items.remove(fromPosition);
         if(toPosition > fromPosition)

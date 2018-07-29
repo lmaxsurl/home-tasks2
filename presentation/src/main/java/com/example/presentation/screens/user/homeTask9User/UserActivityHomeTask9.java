@@ -15,7 +15,6 @@ public class UserActivityHomeTask9 extends BaseMvvmActivity<UserHomeTask9ViewMod
         ActivityUserListBinding,
         UserActivityHomeTask9Router> {
 
-    private static final String TAG = "AAA UserAct";
 
     public static Intent getIntent(Activity activity){
         return new Intent(activity, UserActivityHomeTask9.class);
@@ -23,13 +22,11 @@ public class UserActivityHomeTask9 extends BaseMvvmActivity<UserHomeTask9ViewMod
 
     @Override
     protected UserHomeTask9ViewModel provideViewModel() {
-        Log.d(TAG, "provideViewModel: ");
         return ViewModelProviders.of(this).get(UserHomeTask9ViewModel.class);
     }
 
     @Override
     protected int provideLayoutId() {
-        Log.d(TAG, "provideLayoutId: ");
         return R.layout.activity_user;
     }
 
@@ -41,6 +38,5 @@ public class UserActivityHomeTask9 extends BaseMvvmActivity<UserHomeTask9ViewMod
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate: ");
     }
 }

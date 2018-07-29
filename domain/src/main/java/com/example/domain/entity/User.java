@@ -4,7 +4,6 @@ import android.util.Log;
 
 public class User implements DomainModel {
 
-    private static final String TAG = "AAA User";
     private String firstname;
     private String surname;
     private String gender;
@@ -22,7 +21,6 @@ public class User implements DomainModel {
         this.email = email;
         this.age = age;
         this.objectId = objectId;
-        Log.d(TAG, "User: constructor");
     }
 
     public String getFirstname() {

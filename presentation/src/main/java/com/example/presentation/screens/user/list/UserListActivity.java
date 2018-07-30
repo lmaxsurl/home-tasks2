@@ -70,9 +70,11 @@ public class UserListActivity extends BaseMvvmActivity<UserListViewModel,
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("AAA", "onActivityResult: ");
         String userId;
-        if (data != null && data.getStringExtra(Extras.EXTRA_OBJECT_ID) != null)
+        if (data != null && data.getStringExtra(Extras.EXTRA_OBJECT_ID) != null) {
             userId = data.getStringExtra(Extras.EXTRA_OBJECT_ID);
+        }
         else {
             super.onActivityResult(requestCode, resultCode, data);
             return;
@@ -92,8 +94,8 @@ public class UserListActivity extends BaseMvvmActivity<UserListViewModel,
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStop() {
+        super.onStop();
         binding.findUserEt.setText("");
     }
 }

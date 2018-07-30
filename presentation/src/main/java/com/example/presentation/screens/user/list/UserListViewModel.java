@@ -73,6 +73,7 @@ public class UserListViewModel extends BaseViewModel<UserListRouter> {
     }
 
     private void getData() {
+        showProgressBar();
         listUserUseCase
                 .getUsers()
                 .subscribe(new Observer<List<User>>() {
@@ -148,7 +149,7 @@ public class UserListViewModel extends BaseViewModel<UserListRouter> {
         changeAdapterList(userId, Extras.EXTRA_DELETE_METHOD);
     }
 
-    private void changeAdapterList(String userId, final String requiredMethod) {
+    private void changeAdapterList(final String userId, final String requiredMethod) {
         showProgressBar();
         getUserUseCase
                 .getUser(userId)
